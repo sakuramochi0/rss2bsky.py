@@ -72,9 +72,9 @@ def run():
     last_bsky = get_last_bsky(client)
     feed = feedparser.parse(config["feed"])
 
-    for item in feed["items"]:
-        rss_time = arrow.get(item["published"])
-        content = item["content"][0]["value"]
+    for item in reversed(feed["items"]):
+        rss_time = arrow.get(time.strftime('%Y-%m-%dT%H:%M:%SZ', item["published_parsed"]))
+        content = item["summary"]
         for filter_method in FILTERS:
             content = filter_method(content)
         if len(content) > 300:
