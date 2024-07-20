@@ -23,7 +23,7 @@ def get_last_bsky(client):
 # https://atproto.blue/en/latest/atproto_client/utils/text_builder.html
 def make_rich(content):
     text_builder = client_utils.TextBuilder()
-    for line in content.split("\n"):
+    for line in content.lstrip().split("\n"):
         if line.startswith("http"):
             text_builder.link(line + "\n", line.strip())
         else:
@@ -81,7 +81,7 @@ def run():
             logging.warning("Post too long :( %s" % (item["link"]))
         if len(content.strip()) > 0:
             rich_text = make_rich(content)
-            rich_text.link("\n\nOriginal post", item["link"])
+            rich_text.link("Original post", item["link"])
             if rss_time > last_bsky:
                 try:
                     client.send_post(rich_text)
