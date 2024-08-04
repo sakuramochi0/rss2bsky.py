@@ -68,7 +68,7 @@ client.login(config["bsky"]["username"], config["bsky"]["password"])
 logging.basicConfig(filename="rss2bsky.log", encoding="utf-8", level=logging.INFO)
 
 
-def run():
+def main():
     last_bsky = get_last_bsky(client)
     feed = feedparser.parse(config["feed"])
 
@@ -92,6 +92,4 @@ def run():
                 logging.debug("Not sending %s" % (item["link"]))
 
 
-while True:
-    run()
-    time.sleep(config["sleep"])
+main()
