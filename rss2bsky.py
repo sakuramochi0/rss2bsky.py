@@ -7,10 +7,13 @@ import time
 
 from atproto import Client, client_utils
 from bs4 import BeautifulSoup
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def get_last_bsky(client):
-    timeline = client.get_author_feed(config["bsky"]["handle"])
+    timeline = client.get_author_feed(os.environ['BLUESKY_HANDLE'])
     for titem in timeline.feed:
         # We only care about top-level, non-reply posts
         if titem.reason == None and titem.post.record.reply == None:
@@ -59,18 +62,16 @@ def length_filter(content):
 
 FILTERS = [html_filter, length_filter, mention_filter]
 
-current_path = os.path.dirname(os.path.realpath(__file__))
-config = json.load(open(os.path.join(current_path, "config.json"), "r"))
 
 client = Client()
-client.login(config["bsky"]["username"], config["bsky"]["password"])
+client.login(os.environ['BLUESKY_USERNAME'], os.environ['BLUESKY_PASSWORD'])
 
 logging.basicConfig(filename="rss2bsky.log", encoding="utf-8", level=logging.INFO)
 
 
 def main():
     last_bsky = get_last_bsky(client)
-    feed = feedparser.parse(config["feed"])
+    feed = feedparser.parse(os.environ['RSS_FEED'])
 
     for item in reversed(feed["items"]):
         rss_time = arrow.get(time.strftime('%Y-%m-%dT%H:%M:%SZ', item["published_parsed"]))
