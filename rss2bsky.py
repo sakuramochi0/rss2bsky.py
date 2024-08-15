@@ -6,8 +6,10 @@ import logging
 import time
 
 from atproto import Client, client_utils
+from atproto_client import models
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
+import httpx
 
 load_dotenv()
 
@@ -85,9 +87,18 @@ def main():
         if len(content.strip()) > 0:
             rich_text = make_rich(content)
             rich_text.link("Original post", item["link"])
+
+            images = []
+            if 'media_content' in item:
+                for media, media_text in zip(item['media_content'], item['content']):
+                    img_data = httpx.get(media['url']).content
+                    upload = client.upload_blob(img_data)
+                    images.append(models.AppBskyEmbedImages.Image(alt=media_text['value'], image=upload.blob))
+            embed = models.AppBskyEmbedImages.Main(images=images)
+
             if rss_time > last_bsky:
                 try:
-                    client.send_post(rich_text)
+                    client.send_post(text=rich_text, embed=embed)
                     logging.info("Sent post %s" % (item["link"]))
                 except Exception as e:
                     logging.exception("Failed to post %s" % (item["link"]))
