@@ -1,6 +1,5 @@
 import arrow
 import feedparser
-import json
 import os
 import logging
 import time
@@ -65,7 +64,6 @@ def length_filter(content):
 
 
 FILTERS = [html_filter, length_filter, mention_filter]
-
 
 client = Client()
 client.login(os.environ['BLUESKY_USERNAME'], os.environ['BLUESKY_PASSWORD'])
