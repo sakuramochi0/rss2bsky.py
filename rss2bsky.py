@@ -29,9 +29,9 @@ def make_rich(content):
     text_builder = client_utils.TextBuilder()
     for line in content.lstrip().split("\n"):
         if line.startswith("http"):
-            text_builder.link(line + "\n", line.strip())
+            text_builder.link(line + "\n\n", line.strip())
         else:
-            text_builder.text(line + "\n")
+            text_builder.text(line + "\n\n")
     return text_builder
 
 
