@@ -86,8 +86,8 @@ def main():
         if len(content.strip()) > 0:
             rich_text = make_rich(content)
             rich_text.link("Original post", item["link"])
-            rich_text.text('\n')
             if 'tags' in item:
+                rich_text.text('\n')
                 for tag in item['tags']:
                     rich_text.tag(text=f'#{tag["term"]}', tag=tag['term'])
                     rich_text.text(' ')
