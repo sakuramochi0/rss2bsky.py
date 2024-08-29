@@ -96,7 +96,7 @@ def main():
                 try:
                     images = []
                     if 'media_content' in item:
-                        for media, media_text in zip(item['media_content'], item['content']):
+                        for media, media_text in zip(item['media_content'], item.get('content', [''] * len(item['media_content']))):
                             img_data = httpx.get(media['url']).content
                             upload = client.upload_blob(img_data)
                             images.append(models.AppBskyEmbedImages.Image(alt=media_text['value'], image=upload.blob))
