@@ -97,7 +97,7 @@ def main():
                     images = []
                     if 'media_content' in item:
                         media_contents = item['media_content']
-                        media_texts = item.get('content', [{'value': ''}] * len(media_contents))
+                        media_texts = item.get('content', [{'value': ''}]) * len(media_contents)
                         for media_content, media_text in zip(media_contents, media_texts):
                             img_data = httpx.get(media_content['url']).content
                             upload = client.upload_blob(img_data)
