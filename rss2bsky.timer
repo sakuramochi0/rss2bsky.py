@@ -1,0 +1,11 @@
+[Unit]
+Description=Sync Mastodon posts with Bluesky
+Requires=rss2bsky.service
+
+[Timer]
+Unit=rss2bsky.service
+OnCalendar=*-*-* *:0/15:00
+RandomizedDelaySec=15
+
+[Install]
+WantedBy=timers.target
