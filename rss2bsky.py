@@ -85,7 +85,7 @@ def main():
             logging.warning("Post too long :( %s" % (item["link"]))
         if len(content.strip()) > 0:
             rich_text = make_rich(content)
-            rich_text.link("Original post", item["link"])
+            rich_text.link("🔗", item["link"])
             if 'tags' in item:
                 rich_text.text('\n')
                 for tag in item['tags']:
