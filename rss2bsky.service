@@ -4,7 +4,7 @@ Description=Sync Mastodon posts with Bluesky
 [Service]
 Type=oneshot
 StandardOutput=journal
-ExecStart=%h/dev/sakuramochi/rss2bsky.py/venv/bin/python %h/dev/sakuramochi/rss2bsky.py/rss2bsky.py
+ExecStart=%h/dev/sakuramochi/rss2bsky.py/.venv/bin/python %h/dev/sakuramochi/rss2bsky.py/rss2bsky.py
 WorkingDirectory=%h/dev/sakuramochi/rss2bsky.py/
 
 [Install]
